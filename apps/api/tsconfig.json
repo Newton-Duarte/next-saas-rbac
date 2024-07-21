@@ -1,0 +1,4 @@
+{
+  "extends": "@newton-saas/tsconfig/node.json",
+  "include": ["src/**/*"]
+}

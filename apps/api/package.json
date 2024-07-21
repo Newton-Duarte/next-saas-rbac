@@ -1,0 +1,23 @@
+{
+  "name": "@newton-saas/api",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "tsx watch src/index.ts"
+  },
+  "dependencies": {
+    "@newton-saas/auth": "*"
+  },
+  "devDependencies": {
+    "@newton-saas/eslint-config": "*",
+    "@newton-saas/prettier": "*",
+    "@newton-saas/tsconfig": "*",
+    "@types/node": "^20.14.11",
+    "tsx": "^4.16.2"
+  },
+  "prettier": "@newton-saas/prettier",
+  "eslintConfig": {
+    "extends": [
+      "@newton-saas/eslint-config/node"
+    ]
+  }
+}
