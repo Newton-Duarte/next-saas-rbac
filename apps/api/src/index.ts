@@ -1,9 +1,13 @@
-import { defineAbilityFor } from '@newton-saas/auth'
+import { defineAbilityFor, projectSchema } from '@newton-saas/auth'
 
-const ability = defineAbilityFor({ role: 'ADMIN' })
+const ability = defineAbilityFor({
+  role: 'MEMBER',
+  id: 'user-id',
+  __typename: 'User',
+})
 
-const userCanInviteSomeoneElse = ability.can('invite', 'User')
-const userCanDeletSomeoneElse = ability.can('delete', 'User')
+const project = projectSchema.parse({ id: 'project-id', ownerId: 'user-id' })
 
-console.log(userCanInviteSomeoneElse)
-console.log(userCanDeletSomeoneElse)
+console.log(ability.can('get', 'Billing'))
+console.log(ability.can('create', 'Invite'))
+console.log(ability.can('delete', project))
