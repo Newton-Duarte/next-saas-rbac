@@ -1,0 +1,18 @@
+{
+  "name": "@newton-saas/auth",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "devDependencies": {
+    "@newton-saas/prettier": "*",
+    "@newton-saas/eslint-config": "*",
+    "@newton-saas/tsconfig": "*"
+  },
+  "prettier": "@newton-saas/prettier",
+  "eslintConfig": {
+    "extends": [
+      "@newton-saas/eslint-config/library"
+    ]
+  }
+}
