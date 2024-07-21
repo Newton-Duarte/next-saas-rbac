@@ -5,8 +5,8 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "devDependencies": {
-    "@newton-saas/prettier": "*",
     "@newton-saas/eslint-config": "*",
+    "@newton-saas/prettier": "*",
     "@newton-saas/tsconfig": "*"
   },
   "prettier": "@newton-saas/prettier",
@@ -14,5 +14,8 @@
     "extends": [
       "@newton-saas/eslint-config/library"
     ]
+  },
+  "dependencies": {
+    "@casl/ability": "^6.7.1"
   }
 }
