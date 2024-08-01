@@ -2,7 +2,10 @@
   "name": "@newton-saas/api",
   "version": "0.0.0",
   "scripts": {
-    "dev": "tsx watch src/http/server.ts"
+    "dev": "npm run env:load tsx watch src/http/server.ts",
+    "db:migrate": "npm run env:load prisma migrate dev",
+    "db:studio": "npm run env:load prisma studio",
+    "env:load": "dotenv -e ../../.env --"
   },
   "dependencies": {
     "@fastify/cors": "^9.0.1",
@@ -10,6 +13,7 @@
     "@fastify/swagger": "^8.15.0",
     "@fastify/swagger-ui": "^4.0.1",
     "@newton-saas/auth": "*",
+    "@newton-saas/env": "*",
     "@prisma/client": "^5.17.0",
     "bcryptjs": "^2.4.3",
     "fastify": "^4.28.1",
@@ -24,6 +28,7 @@
     "@newton-saas/tsconfig": "*",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20.14.11",
+    "dotenv-cli": "^7.4.2",
     "prisma": "^5.17.0",
     "tsx": "^4.16.2"
   },
