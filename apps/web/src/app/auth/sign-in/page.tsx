@@ -7,17 +7,22 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 
-export default function SigInPage() {
+export default function SignInPage() {
   return (
     <form className="space-y-4">
       <div className="space-y-1">
         <Label htmlFor="email">E-mail</Label>
-        <Input name="email" type="email" id="email" />
+        <Input id="email" name="email" type="email" autoComplete="email" />
       </div>
 
       <div className="space-y-1">
         <Label htmlFor="password">Password</Label>
-        <Input name="password" type="password" id="password" />
+        <Input
+          id="password"
+          name="password"
+          type="password"
+          autoComplete="current-password"
+        />
 
         <Link
           href="/auth/forgot-password"
@@ -29,6 +34,10 @@ export default function SigInPage() {
 
       <Button type="submit" className="w-full">
         Sign in with email
+      </Button>
+
+      <Button variant="link" className="w-full" size="sm" asChild>
+        <Link href="/auth/sign-up">Create new account</Link>
       </Button>
 
       <Separator />
