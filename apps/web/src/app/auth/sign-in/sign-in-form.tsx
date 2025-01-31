@@ -1,8 +1,9 @@
 'use client'
+
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useActionState } from 'react'
+import { FormEvent, useState, useTransition } from 'react'
 
 import githubIcon from '@/assets/github-icon.svg'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -14,13 +15,38 @@ import { Separator } from '@/components/ui/separator'
 import { signInWithEmailAndPassword } from './actions'
 
 export function SignInForm() {
-  const [{ errors, message, success }, formAction, isPending] = useActionState(
-    signInWithEmailAndPassword,
-    { success: false, message: null, errors: null },
-  )
+  // const [{ errors, message, success }, formAction, isPending] = useActionState(
+  //   signInWithEmailAndPassword,
+  //   { success: false, message: null, errors: null },
+  // )
+
+  const [isPending, startTransition] = useTransition()
+  const [{ success, message, errors }, setFormState] = useState<{
+    success: boolean
+    message: string | null
+    errors: Record<string, string[]> | null
+  }>({
+    success: false,
+    message: null,
+    errors: null,
+  })
+
+  async function handleSignIn(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    const form = event.currentTarget
+    const data = new FormData(form)
+
+    startTransition(async () => {
+      const state = await signInWithEmailAndPassword(data)
+
+      setFormState(state)
+    })
+  }
+
   return (
-    <form action={formAction} className="space-y-4">
-      {!success && message && (
+    <form onSubmit={handleSignIn} className="space-y-4">
+      {success === false && message && (
         <Alert variant="destructive">
           <AlertTriangle className="size-4" />
           <AlertTitle>Sign in failed!</AlertTitle>
@@ -29,9 +55,11 @@ export function SignInForm() {
           </AlertDescription>
         </Alert>
       )}
+
       <div className="space-y-1">
         <Label htmlFor="email">E-mail</Label>
-        <Input id="email" name="email" type="text" autoComplete="email" />
+        <Input name="email" type="email" id="email" />
+
         {errors?.email && (
           <p className="text-xs font-medium text-red-500 dark:text-red-400">
             {errors.email[0]}
@@ -41,12 +69,8 @@ export function SignInForm() {
 
       <div className="space-y-1">
         <Label htmlFor="password">Password</Label>
-        <Input
-          id="password"
-          name="password"
-          type="password"
-          autoComplete="current-password"
-        />
+        <Input name="password" type="password" id="password" />
+
         {errors?.password && (
           <p className="text-xs font-medium text-red-500 dark:text-red-400">
             {errors.password[0]}
@@ -61,23 +85,23 @@ export function SignInForm() {
         </Link>
       </div>
 
-      <Button type="submit" className="w-full">
+      <Button className="w-full" type="submit" disabled={isPending}>
         {isPending ? (
           <Loader2 className="size-4 animate-spin" />
         ) : (
-          'Sign in with email'
+          'Sign in with e-mail'
         )}
       </Button>
 
-      <Button variant="link" className="w-full" size="sm" asChild>
+      <Button className="w-full" variant="link" size="sm" asChild>
         <Link href="/auth/sign-up">Create new account</Link>
       </Button>
 
       <Separator />
 
-      <Button type="submit" variant="outline" className="w-full">
+      <Button type="submit" className="w-full" variant="outline">
         <Image src={githubIcon} alt="" className="mr-2 size-4 dark:invert" />
-        Sign in with Github
+        Sign in with GitHub
       </Button>
     </form>
   )
