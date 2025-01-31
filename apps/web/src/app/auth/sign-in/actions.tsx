@@ -9,24 +9,24 @@ const signInSchema = z.object({
   email: z
     .string()
     .email({ message: 'Please, provide a valid e-mail address.' }),
-  password: z.string().min(6, { message: 'Please, provide your password.' }),
+  password: z.string().min(1, { message: 'Please, provide your password.' }),
 })
 
-export async function signInWithEmailAndPassword(_: unknown, data: FormData) {
+export async function signInWithEmailAndPassword(data: FormData) {
   const result = signInSchema.safeParse(Object.fromEntries(data))
 
   if (!result.success) {
     const errors = result.error.flatten().fieldErrors
 
-    return { sucess: false, message: null, errors }
+    return { success: false, message: null, errors }
   }
 
   const { email, password } = result.data
 
   try {
     const { token } = await signInWithPassword({
-      email: String(email),
-      password: String(password),
+      email,
+      password,
     })
 
     console.log(token)
