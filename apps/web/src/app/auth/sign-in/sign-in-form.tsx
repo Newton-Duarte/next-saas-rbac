@@ -41,7 +41,7 @@ export function SignInForm() {
 
         <div className="space-y-1">
           <Label htmlFor="email">E-mail</Label>
-          <Input name="email" type="email" id="email" />
+          <Input name="email" type="email" id="email" autoComplete="email" />
 
           {errors?.email && (
             <p className="text-xs font-medium text-red-500 dark:text-red-400">
@@ -52,7 +52,12 @@ export function SignInForm() {
 
         <div className="space-y-1">
           <Label htmlFor="password">Password</Label>
-          <Input name="password" type="password" id="password" />
+          <Input
+            name="password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+          />
 
           {errors?.password && (
             <p className="text-xs font-medium text-red-500 dark:text-red-400">
