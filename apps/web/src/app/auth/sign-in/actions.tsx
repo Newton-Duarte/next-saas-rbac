@@ -1,8 +1,10 @@
 'use server'
 
 import { HTTPError } from 'ky'
+import { cookies } from 'next/headers'
 import { z } from 'zod'
 
+import { AUTH_TOKEN_KEY } from '@/auth/constants'
 import { signInWithPassword } from '@/http/sign-in-with-password'
 
 const signInSchema = z.object({
@@ -29,7 +31,12 @@ export async function signInWithEmailAndPassword(data: FormData) {
       password,
     })
 
-    console.log(token)
+    const nextjsCookies = await cookies()
+
+    nextjsCookies.set(AUTH_TOKEN_KEY, token, {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+    })
   } catch (err) {
     if (err instanceof HTTPError) {
       const { message } = await err.response.json()
