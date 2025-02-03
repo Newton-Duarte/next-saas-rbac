@@ -25,6 +25,7 @@ export async function getMembership(app: FastifyInstance) {
                 id: z.string().uuid(),
                 organizationId: z.string().uuid(),
                 role: roleSchema,
+                userId: z.string().uuid(),
               }),
             }),
           },
