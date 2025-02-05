@@ -1,10 +1,11 @@
+import { env } from '@newton-saas/env'
 import { CookiesFn, getCookie } from 'cookies-next'
 import ky from 'ky'
 
 import { AUTH_TOKEN_KEY } from '@/auth/constants'
 
 export const api = ky.create({
-  prefixUrl: 'http://localhost:3333',
+  prefixUrl: env.NEXT_PUBLIC_API_URL,
   hooks: {
     beforeRequest: [
       async (request) => {
