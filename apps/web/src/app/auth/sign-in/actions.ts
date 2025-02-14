@@ -5,6 +5,7 @@ import { cookies } from 'next/headers'
 import { z } from 'zod'
 
 import { AUTH_TOKEN_KEY } from '@/auth/constants'
+import { acceptInvite } from '@/http/accept-invite'
 import { signInWithPassword } from '@/http/sign-in-with-password'
 
 const signInSchema = z.object({
@@ -37,6 +38,16 @@ export async function signInWithEmailAndPassword(data: FormData) {
       path: '/',
       maxAge: 60 * 60 * 24 * 7, // 7 days
     })
+
+    const inviteId = nextjsCookies.get('inviteId')?.value
+    if (inviteId) {
+      try {
+        await acceptInvite(inviteId)
+        nextjsCookies.delete('inviteId')
+      } catch (e) {
+        console.log(e)
+      }
+    }
   } catch (err) {
     if (err instanceof HTTPError) {
       const { message } = await err.response.json()
