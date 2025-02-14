@@ -2,6 +2,7 @@ import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { AUTH_TOKEN_KEY } from '@/auth/constants'
+import { acceptInvite } from '@/http/accept-invite'
 import { signInWithGithub } from '@/http/sign-in-with-github'
 
 export async function GET(request: NextRequest) {
@@ -22,6 +23,15 @@ export async function GET(request: NextRequest) {
     path: '/',
     maxAge: 60 * 60 * 24 * 7, // 7days
   })
+
+  const inviteId = nextjsCookies.get('inviteId')?.value
+
+  if (inviteId) {
+    try {
+      await acceptInvite(inviteId)
+      nextjsCookies.delete('inviteId')
+    } catch {}
+  }
 
   const redirectUrl = request.nextUrl.clone()
 
